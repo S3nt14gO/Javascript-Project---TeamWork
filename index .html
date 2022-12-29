@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=, initidevice-widthal-scale=1.0"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <title>Python Track - Group 1</title>
+        <style>
+
+      body{
+        width: 100%;
+      }
+     /* Carrousal */
+    .row{
+      padding: 0;
+      margin: 0;
+    }
+
+    .SlideIMG {
+        display: none;
+        margin: 1%;
+      }
+
+    .Parent {
+      position: relative;
+      margin: auto;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      font-size: 3vw;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: white;
+      font-weight: bold;
+      transition: 0.6s;
+    }
+
+    .next {
+      right: 1%;
+      border-radius: 3px 0 0 3px;
+    }
+    .prev {
+      left: 1%;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover, .next:hover {
+     background-color: rgba(0,0,0,0.8);
+    }
+
+    .text {
+      color: #f2f2f2;
+      font-size: 3vw;
+      padding: 8px 12px;
+      position: absolute;
+      bottom: 8px;
+      width: 100%;
+      text-align: center;
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+    #CreatedBy{
+      color: white;
+      font-family: cursive;
+      font-size: 3vw;
+
+    }
+    .styleBTN{
+      padding-left: 2%;
+      padding-right: 2%;
+      border: 0;
+      border-radius: 20px;
+      color: rgb(0, 0, 0);
+      box-shadow: 5px 5px 0px 4px black ;
+    }
+
+    /* ~ Carrousal */
+
+    /* Games body */
+    #games-body{
+      margin-top: 7%;
+      margin-bottom: 7%;
+      height: 40vw;
+      width: 100%;
+    }
+    #Paranoia{
+      height: 100%;
+      width: 90%;
+      margin-left: 5%;
+      border: .3vw solid black
+    }
+
+
+    #ParaCanvas {
+      background-image: url(./media/Paranoia.jpg);
+      background-size:contain;
+      display: block;
+      margin: 0 auto;
+    }
+    #ParaNewGame{
+      font-size: 4vw;
+      border: 0;
+      border-radius: 20px;
+      background-color: darkcyan;
+      color: white;
+      box-shadow: 5px 5px 0px 4px black ;
+    }
+    #ParaNewGame:hover , .styleBTN:hover{
+      background-color: rgb(0, 54, 54);
+      box-shadow: 5px 5px 0px 4px white ;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+    <!-- -NavBar -->
+  <nav style="background-color: black; text-align: center;">
+    <img src="./media/gamePad.gif" style="width: 5%;padding-bottom:.5%">
+    <span id="CreatedBy">&nbsp; JS Group #1 - Game center </span>
+  </nav>
+    <!-- image carrousal -->
+    
+<div class="Parent" style="width: 98%;">
+
+    <div class="SlideIMG">
+      <img src="./media/Paranoia.jpg" style="width:100%; height: 40vw;">
+      <div class="text"><a href="#Paranoia"><button class="styleBTN">Paranoia</button></a></div>
+    </div>
+    
+    <div class="SlideIMG">
+      <img src="./media/PingPong.jpg" style="width:100%; height: 40vw;">
+      <div class="text"><button class="styleBTN">Ping Pong</button></div>
+    </div>
+    
+    <div class="SlideIMG">
+      <img src="./media/rock-paper-scissors.webp" style="width:100%; height: 40vw;">
+      <div class="text"><button class="styleBTN">Rock paper Scissors</button></div>
+    </div>
+
+    <div class="SlideIMG">
+        <img src="./media/Tower of Hanoi.png" style="width:100% ; height: 40vw;">
+        <div class="text"><button class="styleBTN">Tower of Hanoi</button></div>
+      </div>
+    
+    <a class="prev" onclick="decrease()">❮</a>
+    <a class="next" onclick="increase()">❯</a>
+    
+    </div>
+
+    <div id="games-body">
+      <div id="Paranoia">
+        <canvas id="ParaCanvas" width="1330" height="594"></canvas> 
+        <button id="ParaNewGame" style="position: relative; top: -60%; left: 40%;"  >Start Game</button>
+      </div>
+
+
+
+      <!-- Sounds -->
+
+      <audio id="GameOver">
+        <source src="./media/game-over.wav" type="audio/wav">
+      </audio>
+      <audio id="Killed">
+        <source src="./media/killed.wav" type="audio/wav">
+      </audio>
+      <audio id="Hit">
+        <source src="./media/mixkit-sound.wav" type="audio/wav">
+      </audio>
+
+    </div>
+<script src="./Paranoia.js"></script>
+    <script>
+      
+        // Carrousal
+        let image = 0;
+        function increase() {
+            image++
+            showSlides();
+        }
+        function decrease() {
+            image--
+            showSlides();
+        }
+
+        showSlides();
+        setInterval (function(){
+            image++
+            showSlides()
+        },3000)
+
+        function showSlides() {
+        var i;
+        var slides = document.getElementsByClassName("SlideIMG");
+        if (image> slides.length) {
+            image = 1
+        }    
+        if (image < 1) {
+            image = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slides[image-1].style.display = "block";  
+        }
+        // ~ Carrousal
+        
+        </script>
+
+</body>
+</html>
